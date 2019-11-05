@@ -16,9 +16,9 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # Subnet for EC2
-resource "aws_subnet" "public_web" {
+resource "aws_subnet" "public_web_1" {
   vpc_id                  = "${aws_vpc.greatapp_vpc.id}"
-  cidr_block              = "10.0.0.0/24"
+  cidr_block              = "10.0.1.0/24"
   availability_zone       = "ap-northeast-1a"
   map_public_ip_on_launch = true
   tags = {
@@ -26,12 +26,21 @@ resource "aws_subnet" "public_web" {
   }
 }
 
-# Subnet and Subnet group for RDS
+resource "aws_subnet" "public_web_2" {
+  vpc_id                  = "${aws_vpc.greatapp_vpc.id}"
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "ap-northeast-1c"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "greatapp_public_web_${var.env}"
+  }
+}
+
+# Subnets and Subnet group for RDS
 resource "aws_subnet" "public_db_1" {
   vpc_id            = "${aws_vpc.greatapp_vpc.id}"
-  cidr_block        = "10.0.1.0/24"
+  cidr_block        = "10.0.11.0/24"
   availability_zone = "ap-northeast-1a"
-  map_public_ip_on_launch = true
   tags = {
     Name = "greatapp_public_db_${var.env}"
   }
@@ -39,9 +48,8 @@ resource "aws_subnet" "public_db_1" {
 
 resource "aws_subnet" "public_db_2" {
   vpc_id            = "${aws_vpc.greatapp_vpc.id}"
-  cidr_block        = "10.0.2.0/24"
+  cidr_block        = "10.0.12.0/24"
   availability_zone = "ap-northeast-1c"
-  map_public_ip_on_launch = true
   tags = {
     Name = "greatapp_public_db_${var.env}"
   }
@@ -64,8 +72,13 @@ resource "aws_route_table" "public_rtb" {
   }
 }
 
-resource "aws_route_table_association" "public_web" {
-  subnet_id      = "${aws_subnet.public_web.id}"
+resource "aws_route_table_association" "public_web_1" {
+  subnet_id      = "${aws_subnet.public_web_1.id}"
+  route_table_id = "${aws_route_table.public_rtb.id}"
+}
+
+resource "aws_route_table_association" "public_web_2" {
+  subnet_id      = "${aws_subnet.public_web_2.id}"
   route_table_id = "${aws_route_table.public_rtb.id}"
 }
 

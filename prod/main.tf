@@ -24,4 +24,7 @@ module "greatapp" {
   rds_disk_size = 50 #GB
   rds_max_disk_size = 500 #GB
   rds_password = "postgres"
+  
+  # If need to config ssl protocol
+  # acm_cert_arn = "arn:aws:acm:ap-northeast-1:xxxxxxx:certificate/xxxxxxxxx"
 }

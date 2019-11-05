@@ -8,3 +8,6 @@ variable "rds_instance_class" {}
 variable "rds_disk_size" {}
 variable "rds_max_disk_size" {}
 variable "rds_password" {}
+
+# If need to config ssl protocol
+# variable "acm_cert_arn" {}

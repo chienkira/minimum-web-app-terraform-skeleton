@@ -3,7 +3,7 @@ resource "aws_instance" "greatapp_web" {
   instance_type               = "${var.ec2_instance_type}"
   key_name                    = "${var.aws_key_name}"               # Must create key pair first from AWS console
   vpc_security_group_ids      = ["${aws_security_group.web_sg.id}"]
-  subnet_id                   = "${aws_subnet.public_web.id}"
+  subnet_id                   = "${aws_subnet.public_web_1.id}"
   associate_public_ip_address = "true"
   root_block_device {
     volume_type = "gp2"
